@@ -131,7 +131,9 @@
             var invalidClass = $this.getValidationClass("invalid");
             var validationsResult = true;
 
-            $.each(validations, function (validation, result) {
+            // workaround for jquery 1.8.3 - https://bugs.jquery.com/ticket/13021
+            for (var validation in validations) {
+                var result = validations[validation];
                 var element = $("." + $this.getValidationClass(validation));
                 if($this.settings.minAmounts[validation] === 0) {
                     element.hide();
@@ -143,7 +145,7 @@
                     validationsResult = false;
                     element.addClass(invalidClass);
                 }
-            });
+            }
 
             return validationsResult;
         },
